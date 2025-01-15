@@ -1,0 +1,53 @@
+[package]
+name = "hydroponic-automation-embassy"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+# Generic cortex m stuff
+cortex-m = "0.7.7"
+cortex-m-rt = "0.7.5"
+
+# Drivers for the wifi chip
+cyw43 = {version = "0.2.0", features = ["firmware-logs"] }
+cyw43-pio = {version = "0.2.0", features = [] }
+
+# Embassy stuff
+embassy-executor = { version = "0.6.3", features = ["task-arena-size-98304", "arch-cortex-m", "executor-thread", "executor-interrupt", "integrated-timers", "nightly"] }
+embassy-rp = { version = "0.2.0", features = ["unstable-pac", "time-driver", "critical-section-impl"]}
+embassy-time = { version = "0.3.2", features = [] }
+embassy-net = { version = "0.5.0", features = ["tcp", "udp", "raw", "dhcpv4", "medium-ethernet", "dns", "proto-ipv4", "proto-ipv6", "multicast"] }
+embassy-sync = { version = "0.6.1", features = [] }
+embassy-embedded-hal = { version = "0.2.0", features = [] }
+embassy-usb = { version = "0.2.0", features = [] }
+
+static_cell = "2.1.0"
+portable-atomic = { version = "1.10.0", features = ["critical-section"]}
+rand_core = "0.6.4"
+
+# Embedded HAL stuff
+embedded-io-async = { version = "0.6.1", features = [] }
+embedded-hal-async = { version = "1.0.0" }
+#embedded-hal-bus = { version = "0.2.0", features = ["defmt-03"] }
+embedded-hal = { version = "1.0.0", features = [] }
+# Other utils
+panic-reset = "0.1.1" # Resets controller upon panic!()
+thiserror = { version = "2.0.11", default-features = false } # Gives Error derive macro
+heapless = "0.8.0" # Allows for Vec<T> and String that don't use the heap
+
+# Serde stuff (std turned off)
+serde = { version = "1.0.216", default-features = false, features = ["serde_derive"]}
+log = { version = "0.4.22", features = ["serde"] }
+embassy-usb-logger = "0.2.0"
+dotenv = { path = "/Users/SamuelCharlson/Desktop/coding/rust/dotenv" }
+
+
+[profile.release]
+debug = 2
+lto = true
+opt-level = 'z'
+
+[profile.dev]
+debug = 2
+lto = true
+opt-level = "z"
