@@ -40,14 +40,13 @@ bind_interrupts!(struct Irqs {
 const WIFI_SSID: &str = dotenv!("WIFI_SSID");
 const WIFI_PWD: Option<&str> = dotenv_option!("WIFI_PWD");
 
-
 #[embassy_executor::main]
 async fn main(spawner: Spawner) {
     let p = embassy_rp::init(Default::default());
     spawner.must_spawn(watchdog(Watchdog::new(p.WATCHDOG)));
     spawner.must_spawn(logger(p.USB));
     info!("Begin logging");
-    
+
     let mut rng = RoscRng;
 
     let fw = include_bytes!("../cyw43-firmware/43439A0.bin");
