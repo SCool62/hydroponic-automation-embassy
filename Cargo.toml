@@ -39,7 +39,7 @@ heapless = "0.8.0" # Allows for Vec<T> and String that don't use the heap
 serde = { version = "1.0.216", default-features = false, features = ["serde_derive"]}
 log = { version = "0.4.22", features = ["serde"] }
 embassy-usb-logger = "0.2.0"
-dotenv = { path = "/Users/SamuelCharlson/Desktop/coding/rust/dotenv" }
+dotenv-proc = "0.1.0"
 
 [profile.release]
 debug = 2

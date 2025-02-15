@@ -297,8 +297,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "dotenv"
+name = "dotenv-proc"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ebe8394467ce9f857830d9df67e4760e9c74a1e6b5cdc00a3e4d51711813196f"
 dependencies = [
  "quote",
  "syn 2.0.96",
@@ -849,7 +851,7 @@ dependencies = [
  "cortex-m-rt",
  "cyw43",
  "cyw43-pio",
- "dotenv",
+ "dotenv-proc",
  "embassy-embedded-hal",
  "embassy-executor",
  "embassy-net",

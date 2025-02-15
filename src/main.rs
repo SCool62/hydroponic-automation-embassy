@@ -5,7 +5,7 @@
 use core::net::Ipv4Addr;
 
 use cyw43_pio::PioSpi;
-use dotenv::{dotenv, dotenv_option};
+use dotenv_proc::{dotenv, dotenv_option};
 use embassy_executor::Spawner;
 use embassy_net::{Ipv4Cidr, StackResources};
 use embassy_rp::{
