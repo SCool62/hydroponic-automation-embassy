@@ -24,11 +24,10 @@ use heapless::Vec;
 use log::*;
 use panic_reset as _;
 use rand_core::RngCore;
-use state::MACHINE_STATE;
 use static_cell::StaticCell;
 use tasks::*;
 
-mod ezo;
+mod hardware;
 mod tasks;
 
 bind_interrupts!(struct Irqs {
@@ -53,8 +52,6 @@ async fn main(spawner: Spawner) {
     let clm = include_bytes!("../cyw43-firmware/43439A0_clm.bin");
     // let fw: [u8; 1] = [0];
     // let clm: [u8; 1] = [0];
-    // Init the MACHINE_STATE before it's used
-    MACHINE_STATE.lock().await.replace(Default::default());
 
     // Set up the PIO for communication with the cyw34
     let pwr = Output::new(p.PIN_23, Level::Low);

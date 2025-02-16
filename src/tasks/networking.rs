@@ -3,7 +3,7 @@ use core::str::from_utf8;
 use cyw43::Control;
 use cyw43_pio::PioSpi;
 use embassy_executor::Spawner;
-use embassy_net::{Runner, Stack, tcp::TcpSocket};
+use embassy_net::{tcp::TcpSocket, Runner, Stack};
 use embassy_rp::{
     gpio::Output,
     peripherals::{DMA_CH0, PIO0},
@@ -15,7 +15,10 @@ use log::*;
 
 use core::fmt::Write as _;
 
-use crate::{WIFI_PWD, WIFI_SSID, state::{EcState, MACHINE_STATE, PhState, WaterLevelState}};
+use crate::{
+    state::{EcState, PhState, WaterLevelState, MACHINE_STATE},
+    WIFI_PWD, WIFI_SSID,
+};
 
 type Cyw43Runner = cyw43::Runner<'static, Output<'static>, PioSpi<'static, PIO0, 0, DMA_CH0>>;
 
@@ -145,7 +148,7 @@ async fn handle_request(req: &[u8]) -> Vec<u8, 64> {
 
                     let mut content: String<16> = String::new();
                     // TODO: Get state
-                    let state = MACHINE_STATE.lock().await.as_ref().unwrap().ph;
+                    let state = MACHINE_STATE.lock().await.ph;
                     match state {
                         PhState::Good(v) => {
                             core::write!(&mut content, "good, {:.2}", v).expect("BUFFER TOO SMALL");
@@ -178,7 +181,7 @@ async fn handle_request(req: &[u8]) -> Vec<u8, 64> {
 
                     let mut content: String<10> = String::new();
                     // TODO: Get state
-                    let state = MACHINE_STATE.lock().await.as_ref().unwrap().ec;
+                    let state = MACHINE_STATE.lock().await.ec;
                     match state {
                         EcState::Good(v) => {
                             core::write!(&mut content, "good, {:.2}", v)
@@ -205,14 +208,15 @@ async fn handle_request(req: &[u8]) -> Vec<u8, 64> {
                 }
                 "/waterlevel" => {
                     // TODO: Get state
-                    let state = MACHINE_STATE.lock().await.as_ref().unwrap().water_level;
+                    let state = MACHINE_STATE.lock().await.water_level;
                     match state {
                         WaterLevelState::Good => {
                             Vec::from_slice(b"HTTP/1.1 200 OK\r\nContent-Length: 4\r\n\r\ngood")
                                 .unwrap()
                         }
                         WaterLevelState::Low => {
-                            Vec::from_slice(b"HTTP/1.1 200 OK\r\nContent-Length: 3\r\n\r\nlow").unwrap()
+                            Vec::from_slice(b"HTTP/1.1 200 OK\r\nContent-Length: 3\r\n\r\nlow")
+                                .unwrap()
                         }
                         WaterLevelState::Unknown => {
                             Vec::from_slice(b"HTTP/1.1 200 OK\r\nContent-Length: 7\r\n\r\nunknown")
