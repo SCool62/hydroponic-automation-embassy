@@ -1,6 +1,6 @@
 use core::str::from_utf8;
 
-use cyw43::Control;
+use cyw43::{Control, JoinAuth, JoinOptions};
 use cyw43_pio::PioSpi;
 use embassy_executor::Spawner;
 use embassy_net::{tcp::TcpSocket, Runner, Stack};
@@ -35,14 +35,17 @@ pub async fn begin_hosting_task(
     // Connect to wifi
     loop {
         if let Some(pwd) = WIFI_PWD {
-            match control.join_wpa2(WIFI_SSID, pwd).await {
+            let mut options = JoinOptions::default();
+            options.auth = JoinAuth::Wpa2;
+            options.passphrase = pwd.as_bytes();
+            match control.join(WIFI_SSID, options).await {
                 Ok(_) => break,
                 Err(err) => {
                     error!("Error joining network with status: {}", err.status);
                 }
             }
         } else {
-            match control.join_open(WIFI_SSID).await {
+            match control.join(WIFI_SSID, JoinOptions::default()).await {
                 Ok(_) => break,
                 Err(err) => {
                     error!("Error joining network with status: {}", err.status);
