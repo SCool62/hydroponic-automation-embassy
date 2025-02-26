@@ -18,5 +18,7 @@ jobs:
     - uses: actions/checkout@v4
     # - name: Format
     #   run: cargo fmt
+    - name: Install target
+      run: rustup target add thumbv6m-none-eabi
     - name: Build
       run: cargo build --verbose --release
