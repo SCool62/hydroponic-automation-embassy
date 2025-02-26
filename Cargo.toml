@@ -13,7 +13,7 @@ cyw43 = {version = "0.3.0", features = ["firmware-logs"] }
 cyw43-pio = {version = "0.3.0", features = [] }
 
 # Embassy stuff
-embassy-executor = { version = "0.7.0", features = ["task-arena-size-98304", "arch-cortex-m", "executor-thread", "executor-interrupt", "nightly"] }
+embassy-executor = { version = "0.7.0", features = ["task-arena-size-98304", "arch-cortex-m", "executor-thread", "executor-interrupt"] }
 embassy-rp = { version = "0.3.1", features = ["unstable-pac", "time-driver", "critical-section-impl", "rp2040"]}
 embassy-time = { version = "0.4.0", features = [] }
 embassy-net = { version = "0.6.0", features = ["tcp", "udp", "raw", "dhcpv4", "medium-ethernet", "dns", "proto-ipv4", "proto-ipv6", "multicast"] }
@@ -40,6 +40,10 @@ serde = { version = "1.0.218", default-features = false, features = ["serde_deri
 log = { version = "0.4.26", features = ["serde"] }
 embassy-usb-logger = "0.4.0"
 dotenv-proc = "0.1.0"
+
+[features]
+default = ["notci"]
+notci = ["embassy-executor/nightly"]
 
 [profile.release]
 debug = 2

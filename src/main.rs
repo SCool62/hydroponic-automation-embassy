@@ -1,6 +1,6 @@
 #![no_std]
 #![no_main]
-#![feature(impl_trait_in_assoc_type)]
+#![cfg_attr(feature = "notci", feature(impl_trait_in_assoc_type))]
 
 use core::net::Ipv4Addr;
 
@@ -10,7 +10,7 @@ use embassy_embedded_hal::adapter::BlockingAsync;
 use embassy_executor::Spawner;
 use embassy_net::{Ipv4Cidr, StackResources};
 use embassy_rp::{
-    bind_interrupts, clocks::RoscRng, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::{Pwm, PwmOutput}, usb::Driver, watchdog::Watchdog
+    bind_interrupts, clocks::RoscRng, config, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::{Pwm, PwmOutput}, usb::Driver, watchdog::Watchdog
 };
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Duration, Timer};
@@ -31,7 +31,10 @@ bind_interrupts!(struct Irqs {
     USBCTRL_IRQ => embassy_rp::usb::InterruptHandler<USB>;
 });
 
+#[cfg(feature = "notci")]
 const WIFI_SSID: &str = dotenv!("WIFI_SSID");
+#[cfg(not(feature = "notci"))]
+const WIFI_SSID: &str = "test";
 const WIFI_PWD: Option<&str> = dotenv_option!("WIFI_PWD");
 
 #[embassy_executor::main]
