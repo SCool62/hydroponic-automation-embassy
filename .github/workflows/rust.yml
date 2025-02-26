@@ -19,4 +19,4 @@ jobs:
     - name: Install target
       run: rustup target add thumbv6m-none-eabi
     - name: Build
-      run: cargo build --verbose --release
+      run: cargo build --verbose --release --no-default-features
