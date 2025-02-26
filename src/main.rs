@@ -10,10 +10,11 @@ use embassy_embedded_hal::adapter::BlockingAsync;
 use embassy_executor::Spawner;
 use embassy_net::{Ipv4Cidr, StackResources};
 use embassy_rp::{
-    bind_interrupts, clocks::RoscRng, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::Pwm, usb::Driver, watchdog::Watchdog
+    bind_interrupts, clocks::RoscRng, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::{Pwm, PwmOutput}, usb::Driver, watchdog::Watchdog
 };
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Duration, Timer};
+use hardware::motor::Motor;
 use heapless::Vec;
 use log::*;
 use panic_reset as _;
@@ -111,8 +112,10 @@ async fn main(spawner: Spawner) {
             embassy_rp::gpio::Pull::Down,
         )))
         .unwrap();
-
-    //let motor = l298n::Motor::new(Output::new(p.PIN_18, Level::Low), Output::new(p.PIN_19, Level::Low), );
+    let pwm = Pwm::new_output_a(p.PWM_SLICE2, p.PIN_20, Default::default());
+    
+    let motor = Motor::new(Output::new(p.PIN_18, Level::Low), Output::new(p.PIN_19, Level::Low), pwm);
+    motor.set_speed(66);
 }
 
 #[embassy_executor::task]
