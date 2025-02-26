@@ -864,6 +864,7 @@ dependencies = [
  "embedded-hal-async",
  "embedded-io-async",
  "heapless 0.8.0",
+ "l298n",
  "log",
  "panic-reset",
  "portable-atomic",
@@ -907,6 +908,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
 dependencies = [
  "either",
+]
+
+[[package]]
+name = "l298n"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1d433b37aeaf3b45a6f4952ba1246da6ef0e1b3d52d339bc71bec68826de25d1"
+dependencies = [
+ "embedded-hal 0.2.7",
 ]
 
 [[package]]

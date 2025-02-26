@@ -6,17 +6,11 @@ use core::net::Ipv4Addr;
 
 use cyw43_pio::PioSpi;
 use dotenv_proc::{dotenv, dotenv_option};
+use embassy_embedded_hal::adapter::BlockingAsync;
 use embassy_executor::Spawner;
 use embassy_net::{Ipv4Cidr, StackResources};
 use embassy_rp::{
-    bind_interrupts,
-    clocks::RoscRng,
-    gpio::{Input, Level, Output},
-    i2c::I2c,
-    peripherals::{I2C1, PIO0, USB},
-    pio::Pio,
-    usb::Driver,
-    watchdog::Watchdog,
+    bind_interrupts, clocks::RoscRng, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::Pwm, usb::Driver, watchdog::Watchdog
 };
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Duration, Timer};
@@ -99,10 +93,7 @@ async fn main(spawner: Spawner) {
     // Begin the cyw43 communication and start the server
     spawner
         .spawn(networking::begin_hosting_task(
-            spawner.clone(),
-            net_runner,
-            control,
-            stack,
+            spawner, net_runner, control, stack,
         ))
         .unwrap();
 
@@ -119,6 +110,8 @@ async fn main(spawner: Spawner) {
             embassy_rp::gpio::Pull::Down,
         )))
         .unwrap();
+
+    //let motor = l298n::Motor::new(Output::new(p.PIN_18, Level::Low), Output::new(p.PIN_19, Level::Low), );
 }
 
 #[embassy_executor::task]
