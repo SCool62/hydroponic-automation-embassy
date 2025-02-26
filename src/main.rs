@@ -112,10 +112,7 @@ async fn main(spawner: Spawner) {
             embassy_rp::gpio::Pull::Down,
         )))
         .unwrap();
-    let pwm = Pwm::new_output_a(p.PWM_SLICE2, p.PIN_20, Default::default());
-    
-    let motor = Motor::new(Output::new(p.PIN_18, Level::Low), Output::new(p.PIN_19, Level::Low), pwm);
-    motor.set_speed(66);
+
 }
 
 #[embassy_executor::task]
