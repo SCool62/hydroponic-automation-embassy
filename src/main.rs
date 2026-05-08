@@ -4,7 +4,7 @@
 
 use core::net::Ipv4Addr;
 
-use cyw43_pio::{PioSpi, DEFAULT_CLOCK_DIVIDER};
+use cyw43_pio::{DEFAULT_CLOCK_DIVIDER, PioSpi};
 use dotenv_proc::{dotenv, dotenv_option};
 use embassy_embedded_hal::adapter::BlockingAsync;
 use embassy_executor::Spawner;
