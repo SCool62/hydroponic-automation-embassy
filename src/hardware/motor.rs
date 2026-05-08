@@ -1,7 +1,7 @@
 use embassy_rp::{
+    Peripheral,
     gpio::Output,
     pwm::{ChannelAPin, Config, Pwm, SetDutyCycle, Slice},
-    Peripheral,
 };
 
 pub struct Motor<'a, PWM: SetDutyCycle> {
@@ -11,11 +11,7 @@ pub struct Motor<'a, PWM: SetDutyCycle> {
 }
 
 impl<'a, PWM: SetDutyCycle> Motor<'a, PWM> {
-    pub fn new(
-        ina: impl Into<Output<'a>>,
-        inb: impl Into<Output<'a>>,
-        pwm: PWM
-    ) -> Motor<'a, PWM> {
+    pub fn new(ina: impl Into<Output<'a>>, inb: impl Into<Output<'a>>, pwm: PWM) -> Motor<'a, PWM> {
         Motor {
             ina: ina.into(),
             inb: inb.into(),
@@ -41,7 +37,7 @@ impl<'a, PWM: SetDutyCycle> Motor<'a, PWM> {
     }
 
     /// Sets speed in percent
-    pub fn set_speed(&mut self, speed: u8) -> Result<(), PWM::Error>{
+    pub fn set_speed(&mut self, speed: u8) -> Result<(), PWM::Error> {
         self.pwm.set_duty_cycle_percent(speed)?;
         Ok(())
     }

@@ -4,13 +4,22 @@
 
 use core::net::Ipv4Addr;
 
-use cyw43_pio::{PioSpi, DEFAULT_CLOCK_DIVIDER};
+use cyw43_pio::{DEFAULT_CLOCK_DIVIDER, PioSpi};
 use dotenv_proc::{dotenv, dotenv_option};
 use embassy_embedded_hal::adapter::BlockingAsync;
 use embassy_executor::Spawner;
 use embassy_net::{Ipv4Cidr, StackResources};
 use embassy_rp::{
-    bind_interrupts, clocks::RoscRng, config, gpio::{Input, Level, Output}, i2c::I2c, peripherals::{I2C1, PIO0, USB}, pio::Pio, pwm::{Pwm, PwmOutput}, usb::Driver, watchdog::Watchdog
+    bind_interrupts,
+    clocks::RoscRng,
+    config,
+    gpio::{Input, Level, Output},
+    i2c::I2c,
+    peripherals::{I2C1, PIO0, USB},
+    pio::Pio,
+    pwm::{Pwm, PwmOutput},
+    usb::Driver,
+    watchdog::Watchdog,
 };
 use embassy_sync::mutex::Mutex;
 use embassy_time::{Duration, Timer};
@@ -115,7 +124,6 @@ async fn main(spawner: Spawner) {
             embassy_rp::gpio::Pull::Down,
         )))
         .unwrap();
-
 }
 
 #[embassy_executor::task]
