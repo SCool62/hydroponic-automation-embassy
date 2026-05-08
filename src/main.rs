@@ -1,6 +1,6 @@
 #![no_std]
 #![no_main]
-#![cfg_attr(feature = "notci", feature(impl_trait_in_assoc_type))]
+#![feature(impl_trait_in_assoc_type)]
 
 use core::net::Ipv4Addr;
 
