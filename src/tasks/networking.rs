@@ -3,7 +3,7 @@ use core::str::from_utf8;
 use cyw43::{Control, JoinAuth, JoinOptions};
 use cyw43_pio::PioSpi;
 use embassy_executor::Spawner;
-use embassy_net::{tcp::TcpSocket, Runner, Stack};
+use embassy_net::{Runner, Stack, tcp::TcpSocket};
 use embassy_rp::{
     gpio::Output,
     peripherals::{DMA_CH0, PIO0},
@@ -16,8 +16,8 @@ use log::*;
 use core::fmt::Write as _;
 
 use crate::{
-    state::{EcState, PhState, WaterLevelState, MACHINE_STATE},
     WIFI_PWD, WIFI_SSID,
+    state::{EcState, MACHINE_STATE, PhState, WaterLevelState},
 };
 
 type Cyw43Runner = cyw43::Runner<'static, Output<'static>, PioSpi<'static, PIO0, 0, DMA_CH0>>;
