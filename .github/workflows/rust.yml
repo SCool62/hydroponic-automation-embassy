@@ -16,7 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Install target
-      run: rustup target add thumbv6m-none-eabi
+    - uses: dtolnay/rust-toolchain@nightly
+      with:
+        targets: thumbv6m-none-eabi
+        components: rustfmt
     - name: Build
-      run: cargo build --verbose --release --no-default-features
+      run: cargo build --verbose --release 
+    - name: Check format
+      run: cargo fmt --check
+
